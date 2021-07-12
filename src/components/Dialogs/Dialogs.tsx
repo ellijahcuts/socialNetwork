@@ -3,7 +3,7 @@ import s from './Dialogs.module.css'
 import Message from "./Message/Message";
 import DialogItem from "./DialogItem/DialogItem";
 import {AddMessageActionCreator,UpdateNewMessageTextActionCreator} from "../../redux/dialogsReducer";
-import {ActionsTypes, DialogPageType} from "../../redux/state";
+import {ActionsTypes, DialogPageType} from "../../redux/store";
 
 type ComponentPropsType = {
     message: string
