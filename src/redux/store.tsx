@@ -45,11 +45,7 @@ export type ActionsTypes =
     | UpdateNewMessageTextActionType
 
 export type StoreType = {
-    _state: RootStateType
-
-
     subscribe: (observer: () => void) => void
-    _callSubscriber: () => void
     getState: () => RootStateType
     dispatch: (action:
                    ReturnType<typeof addPostActionCreator>
@@ -59,53 +55,4 @@ export type StoreType = {
     ) => void
 }
 
-export const store: StoreType = {
-    _state: {
-        profilePage: {
-            posts: [
-                {id: 1, message: 'Hi, whats up', likesCount: 25},
-                {id: 2, message: 'Hello guys', likesCount: 68},
-                {id: 3, message: 'Lets go in CS', likesCount: 924},
-                {id: 4, message: 'I can try again', likesCount: 2},
-            ],
-            newPostText: ''
-        },
-        dialogsPage: {
-            dialogs: [
-                {id: 1, name: 'Ilya'},
-                {id: 2, name: 'Sasha'},
-                {id: 3, name: 'Vasya'},
-                {id: 4, name: 'Sirgay'},
-                {id: 5, name: 'Alexandra'},
-                {id: 6, name: 'Feodor'}
-            ],
-            messages: [
-                {id: 1, message: 'Hi'},
-                {id: 2, message: 'Yo'},
-                {id: 3, message: 'Hola'},
-                {id: 4, message: 'Sup'},
-                {id: 5, message: 'Privet'},
-                {id: 6, message: 'Zdorova'}
-            ],
-            newMessageText: " ",
-        },
-    },
-    _callSubscriber() {
 
-    },
-    getState() {
-        return this._state;
-    },
-    subscribe(observer: () => void) {
-        this._callSubscriber = observer
-    },
-    dispatch(action) {
-        this._state.profilePage = profileReducer(this._state.profilePage, action)
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        this._callSubscriber()
-    }
-
-
-}
-
-export default store;
