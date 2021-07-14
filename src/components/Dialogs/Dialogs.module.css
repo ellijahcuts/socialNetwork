@@ -18,15 +18,15 @@
 }
 
 .buttonAdd{
-    width: 684px;
-    height: 106px;
+    width: 150px;
+    height: 50px;
     background: rgba(219, 14, 14, 0.55);
-    border: 35px solid #383333;
+    border: 5px solid #383333;
     box-sizing: border-box;
     font-family: Rochester;
     font-style: normal;
     font-weight: normal;
-    font-size: 23px;
+    font-size: 15px;
     line-height: 30px;
     color: #210C0C;
 }
