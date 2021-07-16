@@ -32,27 +32,7 @@ export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogPageType
 }
-export type AddPostActionType = ReturnType<typeof addPostActionCreator>
-export type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextActionCreator>
-export type AddMessageActionType = ReturnType<typeof AddMessageActionCreator>
-export type UpdateNewMessageTextActionType = ReturnType<typeof UpdateNewMessageTextActionCreator>
 
 
-export type ActionsTypes =
-    AddPostActionType
-    | UpdateNewPostTextActionType
-    | AddMessageActionType
-    | UpdateNewMessageTextActionType
-
-export type StoreType = {
-    subscribe: (observer: () => void) => void
-    getState: () => RootStateType
-    dispatch: (action:
-                   ReturnType<typeof addPostActionCreator>
-                   | ReturnType<typeof updateNewPostTextActionCreator>
-                   | ReturnType<typeof AddMessageActionCreator>
-                   | ReturnType<typeof UpdateNewMessageTextActionCreator>
-    ) => void
-}
 
 

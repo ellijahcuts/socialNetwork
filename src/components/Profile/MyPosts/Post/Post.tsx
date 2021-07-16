@@ -2,12 +2,13 @@ import React from "react";
 import s from "./Post.module.css";
 
 
-type ComponentPropsType = {
+export type PostType= {
+    id: number
     message: string
     likesCount: number
 }
 
-const Post = (props: ComponentPropsType) => {
+const Post = (props: PostType) => {
     return (
         <div className={s.item}>
             <img src="https://pyxis.nymag.com/v1/imgs/e6c/02c/cbe672af6609198720b69efd475ab5f641-avatar-last-airbender.rsquare.w1200.jpg"/>

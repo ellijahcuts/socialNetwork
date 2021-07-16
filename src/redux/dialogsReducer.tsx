@@ -1,13 +1,18 @@
-import {ActionsTypes, MessageType,} from "./store";
 import {DialogItemType} from "../components/Dialogs/DialogItem/DialogItem";
+import {MessageType} from "../components/Dialogs/Message/Message";
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
-export type DialogPageType = {
+export type DialogsPageType = {
     dialogs: Array<DialogItemType>
     messages: Array<MessageType>
     newMessageText: string
 }
+
+export type DialogActionTypes =
+    | ReturnType<typeof AddMessageActionCreator>
+    | ReturnType<typeof UpdateNewMessageTextActionCreator>
+
 
 let initialState = {
     dialogs: [
@@ -29,19 +34,21 @@ let initialState = {
     newMessageText: " ",
 }
 
-export const dialogsReducer = (state: DialogPageType = initialState, action: ActionsTypes):DialogPageType => {
+export const dialogsReducer = (state= initialState , action: DialogActionTypes):DialogsPageType => {
+
     switch (action.type) {
         case ADD_MESSAGE:
-            let newMessage: MessageType = {
-                id: new Date().getTime(),
-                message: state.newMessageText,
-            };
-            state.messages.push(newMessage);
-            state.newMessageText = "";
-            return state
+            let newMessage = state.newMessageText
+            return {
+                ...state,
+                newMessageText:"",
+                messages: [...state.messages, {id: new Date().getTime(), message: newMessage}]
+            }
         case UPDATE_NEW_MESSAGE_TEXT:
-            state.newMessageText = action.newText
-            return state
+            return {
+                ...state,
+                newMessageText: action.newText
+            }
         default:
             return state
     }
