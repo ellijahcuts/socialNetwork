@@ -5,7 +5,8 @@ import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 import store, {AppStateType} from "./redux/redux-store";
 import reportWebVitals from "./reportWebVitals";
-import StoreContext, {Provider} from "./store-context";
+import {Provider} from "react-redux";
+
 
 
 

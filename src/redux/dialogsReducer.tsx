@@ -1,7 +1,13 @@
-import {ActionsTypes, DialogPageType, MessageType,} from "./store";
-
+import {ActionsTypes, MessageType,} from "./store";
+import {DialogItemType} from "../components/Dialogs/DialogItem/DialogItem";
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+
+export type DialogPageType = {
+    dialogs: Array<DialogItemType>
+    messages: Array<MessageType>
+    newMessageText: string
+}
 
 let initialState = {
     dialogs: [
