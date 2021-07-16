@@ -7,8 +7,8 @@ import {DialogPageType} from "../../redux/dialogsReducer";
 
 type ComponentPropsType = {
     dialogs: DialogPageType
-    addMessage:()=>void
-    updateNewMessageText:(value:string)=>void
+    addMessage: () => void
+    updateNewMessageText: (value: string) => void
 }
 
 const Dialogs = (props: ComponentPropsType) => {
