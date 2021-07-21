@@ -4,7 +4,7 @@ const SET_USERS = 'SET-USERS'
 
 
 export type UserType = {
-    id: number
+    id: string
     avatarUrl: string
     followed: boolean,
     fullName: string
@@ -55,13 +55,13 @@ export const usersReducer = (state = initialState, action: UsersActionTypes): Us
             return state
     }
 }
-export const FollowActionCreator = (userID: number) => {
+export const FollowActionCreator = (userID: string) => {
     return {
         type: FOLLOW,
         userID: userID
     } as const
 }
-export const UnFollowActionCreator = (userID: number) => {
+export const UnFollowActionCreator = (userID: string) => {
     return {
         type: UNFOLLOW,
         userID: userID

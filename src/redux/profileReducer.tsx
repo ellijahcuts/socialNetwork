@@ -1,13 +1,14 @@
+import {v1} from "uuid";
 
 const ADD_POST = "ADD-POST"
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 
 export type PostType = {
-    id: number
+    id: string
     message: string
     likesCount: number
 }
-export type ProfilePageType= {
+export type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
 }
@@ -18,10 +19,10 @@ export type ProfileActionTypes =
 
 let initialState = {
     posts: [
-        {id: 1, message: 'Hi, whats up', likesCount: 25},
-        {id: 2, message: 'Hello guys', likesCount: 68},
-        {id: 3, message: 'Lets go in CS', likesCount: 924},
-        {id: 4, message: 'I can try again', likesCount: 2},
+        {id: v1(), message: 'Hi, whats up', likesCount: 25},
+        {id: v1(), message: 'Hello guys', likesCount: 68},
+        {id: v1(), message: 'Lets go in CS', likesCount: 924},
+        {id: v1(), message: 'I can try again', likesCount: 2},
     ],
     newPostText: ''
 }
@@ -35,7 +36,7 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
             return {
                 ...state,
                 newPostText: "",
-                posts: [...state.posts, {id: new Date().getTime(), message: newPost, likesCount: 0}]
+                posts: [...state.posts, {id: v1(), message: newPost, likesCount: 0}]
             }
 
         case UPDATE_NEW_POST_TEXT:
@@ -49,10 +50,9 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
 
     }
 }
-export const addPostActionCreator = (newPost: string) => {
+export const addPostActionCreator = () => {
     return {
-        type: ADD_POST,
-        newPost: newPost
+        type: ADD_POST
     } as const
 }
 export const updateNewPostTextActionCreator = (newText: string) => {

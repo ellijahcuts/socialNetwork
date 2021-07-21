@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './Users.module.css'
 import {UsersPropsType} from "./UsersContainer";
+import {v1} from "uuid";
 
 
 const Users = (props: UsersPropsType) => {
@@ -8,24 +9,24 @@ const Users = (props: UsersPropsType) => {
             props.setUsers(
                 [
                     {
-                        id: 1,
-                        avatarUrl: 'https://sponzhik.ru/useruploads/foto/3946/avatar_ne_zagrugen__razmer_avatara_bolshe_150_px.jpg',
+                        id: v1(),
+                        avatarUrl: 'http://avotarov.ru/picture/avatar-100/kartinki/27.jpg',
                         followed: true,
                         fullName: 'Ilya',
                         status: 'im sexy im i know it',
                         location: {city: 'Minsk', country: 'Belarus'}
                     },
                     {
-                        id: 2,
-                        avatarUrl: 'https://lh3.googleusercontent.com/proxy/3KpfsLC3gNzkqZwshTl1hUAtiaAn71aLpyyUB4P-hgBbqTfQJa1jugwElGenY6HB5P1yXIHjDfXm_AM',
+                        id: v1(),
+                        avatarUrl: 'http://avotarov.ru/picture/avatar-100/kartinki/41.jpg',
                         followed: false,
                         fullName: 'Jabroni',
                         status: '300 baks',
                         location: {city: 'New York', country: 'America'}
                     },
                     {
-                        id: 3,
-                        avatarUrl: 'http://avatar-collection.ru/images/avatar-687.jpg',
+                        id: v1(),
+                        avatarUrl: 'http://avotarov.ru/picture/avatar-100/kartinki/45.jpg',
                         followed: true,
                         fullName: 'Bondage',
                         status: 'go to the gym',

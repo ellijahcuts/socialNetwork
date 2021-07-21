@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {useRef} from "react";
 import s from './Dialogs.module.css'
 import Message from "./Message/Message";
 import DialogItem from "./DialogItem/DialogItem";
@@ -14,14 +14,16 @@ const Dialogs = (props: DialogsPropsType) => {
     (m => <Message key={m.id} id={m.id} message={m.message}/>)
 
     let message = props.dialogsPage.newMessageText
-
+    let newMessageElement = useRef<HTMLTextAreaElement>(null);
     let onAddMessage = () => {
         props.addMessage()
     }
-    let onMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewMessageText(e.currentTarget.value)
+    let onMessageChange = () => {
+        if (newMessageElement.current) {
+            let text = newMessageElement.current?.value;
+            props.updateNewMessageText(text)
+        }
     }
-
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -30,7 +32,7 @@ const Dialogs = (props: DialogsPropsType) => {
             <div className={s.messages}>
                 {messagesElements}
             </div>
-            <textarea className={s.textarea} value={message} onChange={onMessageChange}/>
+            <textarea className={s.textarea} ref={newMessageElement} value={message} onChange={onMessageChange}/>
             <button className={s.buttonAdd} onClick={onAddMessage}>Add Message</button>
             <button>Remove</button>
         </div>

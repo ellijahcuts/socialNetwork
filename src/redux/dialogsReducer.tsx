@@ -1,13 +1,14 @@
+import {v1} from "uuid";
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
-export type DialogsType={
+export type DialogsType = {
     name: string
-    id: number
+    id: string
 }
-export type MessagesType ={
-    id: number
+export type MessagesType = {
+    id: string
     message: string
 }
 export type DialogsPageType = {
@@ -23,33 +24,33 @@ export type DialogActionTypes =
 
 let initialState = {
     dialogs: [
-        {id: 1, name: 'Ilya'},
-        {id: 2, name: 'Sasha'},
-        {id: 3, name: 'Vasya'},
-        {id: 4, name: 'Sirgay'},
-        {id: 5, name: 'Alexandra'},
-        {id: 6, name: 'Feodor'}
+        {id: v1(), name: 'Ilya'},
+        {id: v1(), name: 'Sasha'},
+        {id: v1(), name: 'Vasya'},
+        {id: v1(), name: 'Sirgay'},
+        {id: v1(), name: 'Alexandra'},
+        {id: v1(), name: 'Feodor'}
     ],
     messages: [
-        {id: 1, message: 'Hi'},
-        {id: 2, message: 'Yo'},
-        {id: 3, message: 'Hola'},
-        {id: 4, message: 'Sup'},
-        {id: 5, message: 'Privet'},
-        {id: 6, message: 'Zdorova'}
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'Yo'},
+        {id: v1(), message: 'Hola'},
+        {id: v1(), message: 'Sup'},
+        {id: v1(), message: 'Privet'},
+        {id: v1(), message: 'Zdorova'}
     ],
-    newMessageText: " " ,
+    newMessageText: " ",
 }
 
-export const dialogsReducer = (state:DialogsPageType = initialState , action: DialogActionTypes):DialogsPageType => {
+export const dialogsReducer = (state: DialogsPageType = initialState, action: DialogActionTypes): DialogsPageType => {
 
     switch (action.type) {
         case ADD_MESSAGE:
             let newMessage = state.newMessageText
             return {
                 ...state,
-                newMessageText:"",
-                messages: [...state.messages, {id: new Date().getTime(), message: newMessage}]
+                newMessageText: "",
+                messages: [...state.messages, {id: v1(), message: newMessage}]
             }
         case UPDATE_NEW_MESSAGE_TEXT:
             return {
@@ -60,10 +61,9 @@ export const dialogsReducer = (state:DialogsPageType = initialState , action: Di
             return state
     }
 }
-export const AddMessageActionCreator = (newMessage: string) => {
+export const AddMessageActionCreator = () => {
     return {
-        type: ADD_MESSAGE,
-        newMessage: newMessage
+        type: ADD_MESSAGE
     } as const
 }
 export const UpdateNewMessageTextActionCreator = (newText: string) => {
