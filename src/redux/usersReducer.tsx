@@ -3,27 +3,25 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 
 
-
 export type UserType = {
     id: number
     avatarUrl: string
     followed: boolean,
     fullName: string
     status: string
-    location: {city: string, country: string}
+    location: { city: string, country: string }
 }
 export type UsersPageType = {
-    users:Array<UserType>
+    users: Array<UserType>
+}
+const initialState: UsersPageType = {
+    users: []
 }
 export type UsersActionTypes =
     | ReturnType<typeof FollowActionCreator>
     | ReturnType<typeof UnFollowActionCreator>
     | ReturnType<typeof SetUsersActionCreator>
 
-
-let initialState: UsersPageType={
-    users: []
-}
 
 export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
 

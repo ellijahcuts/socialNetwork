@@ -1,8 +1,12 @@
-import {PostType} from "../components/Profile/MyPosts/Post/Post";
 
 const ADD_POST = "ADD-POST"
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
 export type ProfilePageType= {
     posts: Array<PostType>
     newPostText: string

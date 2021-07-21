@@ -1,11 +1,18 @@
-import {DialogItemType} from "../components/Dialogs/DialogItem/DialogItem";
-import {MessageType} from "../components/Dialogs/Message/Message";
+
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
+export type DialogsType={
+    name: string
+    id: number
+}
+export type MessagesType ={
+    id: number
+    message: string
+}
 export type DialogsPageType = {
-    dialogs: Array<DialogItemType>
-    messages: Array<MessageType>
+    dialogs: Array<DialogsType>
+    messages: Array<MessagesType>
     newMessageText: string
 }
 
@@ -31,10 +38,10 @@ let initialState = {
         {id: 5, message: 'Privet'},
         {id: 6, message: 'Zdorova'}
     ],
-    newMessageText: " ",
+    newMessageText: " " ,
 }
 
-export const dialogsReducer = (state= initialState , action: DialogActionTypes):DialogsPageType => {
+export const dialogsReducer = (state:DialogsPageType = initialState , action: DialogActionTypes):DialogsPageType => {
 
     switch (action.type) {
         case ADD_MESSAGE:

@@ -1,16 +1,10 @@
 import React, {ChangeEvent} from "react";
 import s from "./MyPosts.module.css";
-import Post, {PostType} from "./Post/Post";
+import Post from "./Post/Post";
+import {MyPostsPropsType} from "./MyPostsContainer";
 
 
-type ComponentPropsType = {
-    message: string
-    posts:Array<PostType>
-    addPost:()=>void
-    updateNewPostText: (text:string) => void
-}
-
-const MyPosts = (props: ComponentPropsType) => {
+const MyPosts = (props: MyPostsPropsType) => {
     let postsElements = props.posts.map(
         p => <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>
     )
@@ -27,7 +21,7 @@ const MyPosts = (props: ComponentPropsType) => {
                 <h3>My posts</h3>
             </div>
             <div>
-                <textarea value={props.message} onChange={onPostChange}/>
+                <textarea value={props.newPostText} onChange={onPostChange}/>
             </div>
             <div>
                 <button onClick={onAddPost}>Add post
