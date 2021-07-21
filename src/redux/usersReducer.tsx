@@ -1,0 +1,78 @@
+const FOLLOW = 'FOLLOW'
+const UNFOLLOW = 'UNFOLLOW'
+const SET_USERS = 'SET-USERS'
+
+
+
+export type UserType = {
+    id: number
+    avatarUrl: string
+    followed: boolean,
+    fullName: string
+    status: string
+    location: {city: string, country: string}
+}
+export type UsersPageType = {
+    users:Array<UserType>
+}
+export type UsersActionTypes =
+    | ReturnType<typeof FollowActionCreator>
+    | ReturnType<typeof UnFollowActionCreator>
+    | ReturnType<typeof SetUsersActionCreator>
+
+
+let initialState: UsersPageType={
+    users: []
+}
+
+export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
+
+    switch (action.type) {
+        case FOLLOW: {
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if (u.id === action.userID) {
+                        return {...u, followed: true}
+                    }
+                    return u
+                })
+            }
+        }
+        case UNFOLLOW: {
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if (u.id === action.userID) {
+                        return {...u, followed: false}
+                    }
+                    return u
+                })
+            }
+        }
+        case SET_USERS: {
+            return {...state, users: [...state.users, ...action.users]}
+        }
+        default:
+            return state
+    }
+}
+export const FollowActionCreator = (userID: number) => {
+    return {
+        type: FOLLOW,
+        userID: userID
+    } as const
+}
+export const UnFollowActionCreator = (userID: number) => {
+    return {
+        type: UNFOLLOW,
+        userID: userID
+    } as const
+}
+export const SetUsersActionCreator = (users: Array<UserType>) => {
+    return {
+        type: SET_USERS,
+        users: users
+    } as const
+}
+

@@ -1,4 +1,5 @@
 import {PostType} from "../components/Profile/MyPosts/Post/Post";
+
 const ADD_POST = "ADD-POST"
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 
@@ -46,13 +47,13 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
 }
 export const addPostActionCreator = (newPost: string) => {
     return {
-        type: 'ADD-POST',
+        type: ADD_POST,
         newPost: newPost
     } as const
 }
 export const updateNewPostTextActionCreator = (newText: string) => {
     return {
-        type: 'UPDATE-NEW-POST-TEXT',
+        type: UPDATE_NEW_POST_TEXT,
         newText: newText
     } as const
 }
