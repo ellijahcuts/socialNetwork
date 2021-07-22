@@ -19,14 +19,14 @@ type mapDispatchPropsType = {
     unFollow: (userID: string) => void
     setUsers: (users: Array<UserType>) => void
 }
-export type UsersPropsType =  mapStatePropsType & mapDispatchPropsType
+export type UsersPropsType = mapStatePropsType & mapDispatchPropsType
 
-let mapStateToProps = (state: AppStateType):mapStatePropsType => {
+let mapStateToProps = (state: AppStateType): mapStatePropsType => {
     return {
         usersPage: state.usersPage.users
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch):mapDispatchPropsType => {
+let mapDispatchToProps = (dispatch: Dispatch): mapDispatchPropsType => {
     return {
         follow: (userID: string) => {
             dispatch(FollowActionCreator(userID))

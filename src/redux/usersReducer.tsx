@@ -5,7 +5,10 @@ const SET_USERS = 'SET-USERS'
 
 export type UserType = {
     id: string
-    avatarUrl: string
+    photos: {
+        small: string
+        large: string
+    }
     followed: boolean,
     fullName: string
     status: string
