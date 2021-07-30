@@ -8,16 +8,37 @@ import userPhoto from '../../assets/images/none-avatar.png'
 class Users extends React.Component<UsersPropsType> {
 
     componentDidMount() {
-        axios.get("https://social-network.samuraijs.com/api/1.0/users")
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setTotalUserCount(response.data.totalCount)
+            })
+    }
+    onPageChanged = (pageNumber:number)=>{
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
             })
+        this.props.setCurrentPage(pageNumber)
     }
-
     render() {
+
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+        let pages = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+
         return (
             <div>
-                {this.props.usersPage.map(u => <div key={u.id}>
+                <div>
+                    {pages.map(p=>{
+                        return(
+                            <span onClick={()=>{this.onPageChanged(p)}}
+                                  className={this.props.currentPage === p ? s.selectedPage : ""}>{p}</span>
+                        )})}
+                </div>
+                    {this.props.usersPage.map(u => <div key={u.id}>
                 <span>
                     <div>
                         <img
@@ -32,7 +53,7 @@ class Users extends React.Component<UsersPropsType> {
                             : <button onClick={() => this.props.follow(u.id)}>Unfollow</button>}
                     </div>
                 </span>
-                    <span>
+                        <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -42,8 +63,8 @@ class Users extends React.Component<UsersPropsType> {
                         <div>{'u.location.city'}</div>
                     </span>
                 </span>
-                </div>)}
-            </div>
+                    </div>)}
+                </div>
         )
     }
 }

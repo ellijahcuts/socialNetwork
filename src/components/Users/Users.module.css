@@ -2,3 +2,9 @@
     width: 100px;
     height: 100px;
 }
+.selectedPage{
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 5px;
+    margin-left: 5px;
+}
