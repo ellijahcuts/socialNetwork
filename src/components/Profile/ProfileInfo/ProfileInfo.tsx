@@ -6,7 +6,7 @@ const ProfileInfo = () => {
         <div>
             <div>
                 <img
-                    src="https://woodoobarbershop.com/wp-content/uploads/stylish-man-in-a-barber-shop-PNP5WVU.jpg"></img>
+                    src="https://pngimg.com/uploads/hello/hello_PNG4.png"></img>
             </div>
             <div className={s.descriptionBlock}> avatar + description</div>
         </div>
