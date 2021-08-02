@@ -3,6 +3,7 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAl_USERS-COUNT'
+const SPINNER_IS_FETCHING = 'SPINNER-IS-FETCHING'
 
 
 export type UserType = {
@@ -21,12 +22,14 @@ export type UsersPageType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 const initialState: UsersPageType = {
     users: [],
-    pageSize: 4,
+    pageSize: 20,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 }
 export type UsersActionTypes =
     | ReturnType<typeof FollowActionCreator>
@@ -34,6 +37,7 @@ export type UsersActionTypes =
     | ReturnType<typeof SetUsersActionCreator>
     | ReturnType<typeof SetCurrentPageActionCreator>
     | ReturnType<typeof SetTotalUserCountActionCreator>
+    | ReturnType<typeof SetIsFetchingActionCreator>
 
 
 export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
@@ -70,6 +74,9 @@ export const usersReducer = (state = initialState, action: UsersActionTypes): Us
         case SET_TOTAL_USERS_COUNT: {
             return {...state, totalUsersCount: action.totalCount}
         }
+        case SPINNER_IS_FETCHING: {
+            return {...state, isFetching: action.isFetching}
+        }
         default:
             return state
     }
@@ -102,6 +109,12 @@ export const SetTotalUserCountActionCreator = (totalCount: number) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalCount: totalCount
+    } as const
+}
+export const SetIsFetchingActionCreator = (isFetching: boolean) => {
+    return {
+        type: SPINNER_IS_FETCHING,
+        isFetching: isFetching
     } as const
 }
 

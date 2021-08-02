@@ -43,7 +43,7 @@ const Users = (props: UsersAPIPropsType) => {
                     <div>
                         <img
                             src={u.photos.small != null ? u.photos.small : userPhoto}
-                            alt={"User's avatar"}
+                            alt={'Loading...'}
                             className={s.usersPhoto}
                         />
                     </div>
