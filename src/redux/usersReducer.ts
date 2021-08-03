@@ -32,12 +32,12 @@ const initialState: UsersPageType = {
     isFetching: false
 }
 export type UsersActionTypes =
-    | ReturnType<typeof FollowActionCreator>
-    | ReturnType<typeof UnFollowActionCreator>
-    | ReturnType<typeof SetUsersActionCreator>
-    | ReturnType<typeof SetCurrentPageActionCreator>
-    | ReturnType<typeof SetTotalUserCountActionCreator>
-    | ReturnType<typeof SetIsFetchingActionCreator>
+    | ReturnType<typeof follow>
+    | ReturnType<typeof unFollow>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof setTotalUserCount>
+    | ReturnType<typeof setIsFetching>
 
 
 export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
@@ -81,37 +81,37 @@ export const usersReducer = (state = initialState, action: UsersActionTypes): Us
             return state
     }
 }
-export const FollowActionCreator = (userID: string) => {
+export const follow = (userID: string) => {
     return {
         type: FOLLOW,
         userID: userID
     } as const
 }
-export const UnFollowActionCreator = (userID: string) => {
+export const unFollow = (userID: string) => {
     return {
         type: UNFOLLOW,
         userID: userID
     } as const
 }
-export const SetUsersActionCreator = (users: Array<UserType>) => {
+export const setUsers = (users: Array<UserType>) => {
     return {
         type: SET_USERS,
         users: users
     } as const
 }
-export const SetCurrentPageActionCreator = (currentPage: number) => {
+export const setCurrentPage = (currentPage: number) => {
     return {
         type: SET_CURRENT_PAGE,
         currentPage: currentPage
     } as const
 }
-export const SetTotalUserCountActionCreator = (totalCount: number) => {
+export const setTotalUserCount = (totalCount: number) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalCount: totalCount
     } as const
 }
-export const SetIsFetchingActionCreator = (isFetching: boolean) => {
+export const setIsFetching = (isFetching: boolean) => {
     return {
         type: SPINNER_IS_FETCHING,
         isFetching: isFetching
