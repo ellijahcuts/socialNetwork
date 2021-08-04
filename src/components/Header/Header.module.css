@@ -6,3 +6,9 @@
 .header img {
     width: 58px;
 }
+.loginBlock{
+    float: right;
+}
+.loginBlock a{
+    color: black;
+}

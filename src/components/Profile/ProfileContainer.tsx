@@ -9,12 +9,15 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 type ParamsPropsType={
     userId: string
 }
+
 type mapStatePropsType = {
     profilePage: ProfileType | null
 }
+
 type mapDispatchPropsType = {
     setUserProfile: (profile: ProfileType) => void
 }
+
 export type ProfilePropsType = mapStatePropsType & mapDispatchPropsType
 export type WithRouterPropsType=RouteComponentProps<ParamsPropsType> & ProfilePropsType
 
@@ -33,7 +36,6 @@ class ProfileContainerFunc extends React.Component<WithRouterPropsType> {
     render() {
         return (
             <Profile
-                {...this.props}
                 profilePage={this.props.profilePage}
             />
         );
