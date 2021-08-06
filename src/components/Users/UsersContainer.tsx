@@ -1,10 +1,18 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {follow, setCurrentPage, setIsFetching, setTotalUserCount, setUsers, unFollow, UserType} from "../../redux/usersReducer";
+import {
+    follow,
+    setCurrentPage,
+    setIsFetching,
+    setTotalUserCount,
+    setUsers,
+    unFollow,
+    UserType
+} from "../../redux/usersReducer";
 import {AppStateType} from "../../redux/redux-store";
-import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
+import {usersAPI} from "../../api/api";
 
 type mapStatePropsType = {
     usersPage: Array<UserType>
@@ -27,25 +35,19 @@ export class UsersContainerFunc extends React.Component<UsersPropsType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,{
-            withCredentials:true
-        })
-            .then(response => {
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
                 this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUserCount(response.data.totalCount)
+                this.props.setUsers(data.items)
+                this.props.setTotalUserCount(data.totalCount)
             })
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber)
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,{
-            withCredentials: true
-        })
-            .then(response => {
+        usersAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
                 this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(data.items)
             })
         this.props.setCurrentPage(pageNumber)
     }

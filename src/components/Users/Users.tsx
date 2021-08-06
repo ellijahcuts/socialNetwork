@@ -4,6 +4,7 @@ import userPhoto from "../../assets/images/none-avatar.png";
 import {UserType} from "../../redux/usersReducer";
 import {NavLink} from 'react-router-dom';
 import axios from "axios";
+import {followAPI} from "../../api/api";
 
 
 export type UsersAPIPropsType = {
@@ -52,33 +53,25 @@ const Users = (props: UsersAPIPropsType) => {
                             </NavLink>
                     </div>
                     <div>
-                        {u.followed ?
-                            <button onClick={() =>{
-
-                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                    withCredentials: true,
-                                    headers: {'API-KEY':'4206485e-0290-4078-a67d-87761ec4f1b5'}
-                                })
-                                    .then(response => {
-                                        if (response.data.resultCode == 0) {
+                        {u.followed
+                            ?
+                            <button onClick={() => {
+                                followAPI.deleteUnfollow(u.id)
+                                    .then(data => {
+                                        if (data.resultCode == 0) {
                                             props.unFollow(u.id)
                                         }
                                     })
-                            }}
-                            >UnFollow</button>
-                            : <button onClick={() => {
-
-                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                    withCredentials: true,
-                                    headers: {'API-KEY':'4206485e-0290-4078-a67d-87761ec4f1b5'}
-                                })
-                                    .then(response => {
-                                        if (response.data.resultCode == 0) {
+                            }}>UnFollow</button>
+                            :
+                            <button onClick={() => {
+                                followAPI.postFollow(u.id)
+                                    .then(data => {
+                                        if (data.resultCode == 0) {
                                             props.follow(u.id)
                                         }
                                     })
-                            }}
-                            >Follow</button>}
+                            }}>Follow</button>}
                     </div>
                 </span>
                 <span>
