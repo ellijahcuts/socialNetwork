@@ -1,3 +1,6 @@
+import { Dispatch } from "redux";
+import {followAPI, usersAPI} from "../api/api";
+
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
@@ -35,13 +38,14 @@ const initialState: UsersPageType = {
     followingInProgress: [],
 }
 export type UsersActionTypes =
-    | ReturnType<typeof follow>
-    | ReturnType<typeof unFollow>
+    | ReturnType<typeof followSuccess>
+    | ReturnType<typeof unFollowSuccess>
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUserCount>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof setIsFollowingProgress>
+
 
 
 export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
@@ -85,20 +89,21 @@ export const usersReducer = (state = initialState, action: UsersActionTypes): Us
             return {
                 ...state, followingInProgress: action.isFetching
                     ? [...state.followingInProgress, action.userID]
-                    : state.followingInProgress.filter(id => id != action.userID)
+                    : state.followingInProgress.filter(id => id !== action.userID)
             }
         }
         default:
             return state
     }
 }
-export const follow = (userID: string) => {
+///ACTION CREATORS
+export const followSuccess = (userID: string) => {
     return {
         type: FOLLOW,
         userID: userID
     } as const
 }
-export const unFollow = (userID: string) => {
+export const unFollowSuccess = (userID: string) => {
     return {
         type: UNFOLLOW,
         userID: userID
@@ -128,11 +133,45 @@ export const setIsFetching = (isFetching: boolean) => {
         isFetching: isFetching
     } as const
 }
-export const setIsFollowingProgress = (isFetching:boolean, userID:string) => {
+export const setIsFollowingProgress = (isFetching: boolean, userID: string) => {
     return {
         type: SPINNER_IS_FOLLOWING_PROGRESS,
         isFetching: isFetching,
-        userID:  userID
+        userID: userID
     } as const
 }
-
+///THUNK CREATOR
+export const getUsers = (currentPage: number,pageSize: number) => {
+   return (dispatch: Dispatch) => {
+        dispatch(setIsFetching(true))
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(setIsFetching(false))
+            dispatch(setUsers(data.items))
+            dispatch(setTotalUserCount(data.totalCount))
+        })
+    }
+}
+export const follow = (userID: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setIsFollowingProgress(true,userID))
+        followAPI.postFollow(userID)
+            .then(data => {
+                if (data.resultCode == 0) {
+                    dispatch(followSuccess(userID))
+                }
+                dispatch(setIsFollowingProgress(false,userID))
+            })
+    }
+}
+export const unFollow = (userID: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setIsFollowingProgress(true,userID))
+        followAPI.deleteUnfollow(userID)
+            .then(data => {
+                if (data.resultCode == 0) {
+                    dispatch(unFollowSuccess(userID))
+                }
+                dispatch(setIsFollowingProgress(false,userID))
+            })
+    }
+}
