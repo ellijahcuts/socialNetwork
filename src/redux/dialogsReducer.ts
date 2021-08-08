@@ -69,6 +69,6 @@ export const AddMessageActionCreator = () => {
 export const UpdateNewMessageTextActionCreator = (newText: string) => {
     return {
         type: UPDATE_NEW_MESSAGE_TEXT,
-        newText: newText
+        newText
     } as const
 }

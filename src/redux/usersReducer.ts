@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import {Dispatch} from "redux";
 import {followAPI, usersAPI} from "../api/api";
 
 const FOLLOW = 'FOLLOW'
@@ -45,7 +45,6 @@ export type UsersActionTypes =
     | ReturnType<typeof setTotalUserCount>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof setIsFollowingProgress>
-
 
 
 export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
@@ -100,49 +99,49 @@ export const usersReducer = (state = initialState, action: UsersActionTypes): Us
 export const followSuccess = (userID: string) => {
     return {
         type: FOLLOW,
-        userID: userID
+        userID
     } as const
 }
 export const unFollowSuccess = (userID: string) => {
     return {
         type: UNFOLLOW,
-        userID: userID
+        userID
     } as const
 }
 export const setUsers = (users: Array<UserType>) => {
     return {
         type: SET_USERS,
-        users: users
+        users
     } as const
 }
 export const setCurrentPage = (currentPage: number) => {
     return {
         type: SET_CURRENT_PAGE,
-        currentPage: currentPage
+        currentPage
     } as const
 }
 export const setTotalUserCount = (totalCount: number) => {
     return {
         type: SET_TOTAL_USERS_COUNT,
-        totalCount: totalCount
+        totalCount
     } as const
 }
 export const setIsFetching = (isFetching: boolean) => {
     return {
         type: SPINNER_IS_FETCHING,
-        isFetching: isFetching
+        isFetching
     } as const
 }
 export const setIsFollowingProgress = (isFetching: boolean, userID: string) => {
     return {
         type: SPINNER_IS_FOLLOWING_PROGRESS,
-        isFetching: isFetching,
-        userID: userID
+        isFetching,
+        userID
     } as const
 }
 ///THUNK CREATOR
-export const getUsers = (currentPage: number,pageSize: number) => {
-   return (dispatch: Dispatch) => {
+export const getUsers = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch) => {
         dispatch(setIsFetching(true))
         usersAPI.getUsers(currentPage, pageSize).then(data => {
             dispatch(setIsFetching(false))
@@ -153,25 +152,25 @@ export const getUsers = (currentPage: number,pageSize: number) => {
 }
 export const follow = (userID: string) => {
     return (dispatch: Dispatch) => {
-        dispatch(setIsFollowingProgress(true,userID))
+        dispatch(setIsFollowingProgress(true, userID))
         followAPI.postFollow(userID)
             .then(data => {
                 if (data.resultCode == 0) {
                     dispatch(followSuccess(userID))
                 }
-                dispatch(setIsFollowingProgress(false,userID))
+                dispatch(setIsFollowingProgress(false, userID))
             })
     }
 }
 export const unFollow = (userID: string) => {
     return (dispatch: Dispatch) => {
-        dispatch(setIsFollowingProgress(true,userID))
+        dispatch(setIsFollowingProgress(true, userID))
         followAPI.deleteUnfollow(userID)
             .then(data => {
                 if (data.resultCode == 0) {
                     dispatch(unFollowSuccess(userID))
                 }
-                dispatch(setIsFollowingProgress(false,userID))
+                dispatch(setIsFollowingProgress(false, userID))
             })
     }
 }

@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {authAPI} from "../api/api";
+
 const SET_USER_DATA = 'SET-USER-DATA'
 const SPINNER_IS_FETCHING = 'SPINNER-IS-FETCHING'
 
@@ -53,6 +56,15 @@ export const setAuthUserData = (userId: number, email: string, login: string) =>
 export const setIsFetching = (isFetching: boolean) => {
     return {
         type: SPINNER_IS_FETCHING,
-        isFetching: isFetching
+        isFetching
     } as const
+}
+export const getAuthUserData = () => {
+   return (dispatch: Dispatch) => {
+       authAPI.getMe().then(data => {
+           dispatch(setIsFetching(false))
+           let {id, email, login} = data.data
+           dispatch(setAuthUserData(id, email, login))
+       })
+    }
 }
