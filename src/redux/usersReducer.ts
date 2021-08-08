@@ -4,6 +4,7 @@ const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAl_USERS-COUNT'
 const SPINNER_IS_FETCHING = 'SPINNER-IS-FETCHING'
+const SPINNER_IS_FOLLOWING_PROGRESS = 'SPINNER-IS-FOLLOWING-PROGRESS'
 
 
 export type UserType = {
@@ -23,13 +24,15 @@ export type UsersPageType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: Array<string>
 }
 const initialState: UsersPageType = {
     users: [],
     pageSize: 20,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: [],
 }
 export type UsersActionTypes =
     | ReturnType<typeof follow>
@@ -38,6 +41,7 @@ export type UsersActionTypes =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUserCount>
     | ReturnType<typeof setIsFetching>
+    | ReturnType<typeof setIsFollowingProgress>
 
 
 export const usersReducer = (state = initialState, action: UsersActionTypes): UsersPageType => {
@@ -77,6 +81,13 @@ export const usersReducer = (state = initialState, action: UsersActionTypes): Us
         case SPINNER_IS_FETCHING: {
             return {...state, isFetching: action.isFetching}
         }
+        case SPINNER_IS_FOLLOWING_PROGRESS: {
+            return {
+                ...state, followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userID]
+                    : state.followingInProgress.filter(id => id != action.userID)
+            }
+        }
         default:
             return state
     }
@@ -115,6 +126,13 @@ export const setIsFetching = (isFetching: boolean) => {
     return {
         type: SPINNER_IS_FETCHING,
         isFetching: isFetching
+    } as const
+}
+export const setIsFollowingProgress = (isFetching:boolean, userID:string) => {
+    return {
+        type: SPINNER_IS_FOLLOWING_PROGRESS,
+        isFetching: isFetching,
+        userID:  userID
     } as const
 }
 
