@@ -5,6 +5,8 @@ import {AppStateType} from "../../redux/redux-store";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
 import {Redirect} from "react-router-dom";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type mapStatePropsType = {
     usersPage: Array<UserType>
@@ -13,7 +15,7 @@ type mapStatePropsType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<string>
-    isAuth:boolean
+    isAuth: boolean
 }
 type mapDispatchPropsType = {
     follow: (userID: string) => void
@@ -24,7 +26,7 @@ type mapDispatchPropsType = {
 }
 export type UsersPropsType = mapStatePropsType & mapDispatchPropsType
 
-export class UsersContainerFunc extends React.Component<UsersPropsType> {
+export class UsersContainer extends React.Component<UsersPropsType> {
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
@@ -34,7 +36,7 @@ export class UsersContainerFunc extends React.Component<UsersPropsType> {
     }
 
     render() {
-        if(!this.props.isAuth) return <Redirect to={"/login"}/>
+        if (!this.props.isAuth) return <Redirect to={"/login"}/>
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <Users usersPage={this.props.usersPage}
@@ -59,17 +61,18 @@ let mapStateToProps = (state: AppStateType): mapStatePropsType => {
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
         followingInProgress: state.usersPage.followingInProgress,
-        isAuth:state.auth.isAuth
+        isAuth: state.auth.isAuth
     }
 }
 
-const UsersContainer = connect(mapStateToProps,
-    {
-        follow,
-        setCurrentPage,
-        unFollow,
-        setIsFollowingProgress,
-        getUsers
-    })(UsersContainerFunc);
-
-export default UsersContainer;
+export default compose<React.ComponentType>(
+    connect(mapStateToProps,
+        {
+            follow,
+            setCurrentPage,
+            unFollow,
+            setIsFollowingProgress,
+            getUsers
+        }),
+    withAuthRedirect
+)(UsersContainer);
