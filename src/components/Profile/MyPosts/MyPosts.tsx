@@ -2,23 +2,22 @@ import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
+import {PostTextReduxForm} from "./PostForm/MyPostForm";
 
+type PostFormDataType = {
+    newPostText:string
+}
 
 const MyPosts = (props: MyPostsPropsType) => {
+
     let postsElements = props.posts.map(
         p => <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>
     )
-    let newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    let onAddPost = () => {
-        props.addPost()
-    }
-
-    let onPostChange = () => {
-        if (newPostElement.current) {
-            let newText = newPostElement.current.value
-            props.updateNewPostText(newText)
-        }
+    let addNewPost = (newText: PostFormDataType) => {
+        console.log(newText)
+        debugger
+        props.addPost(newText.newPostText)
     }
 
     return (
@@ -26,14 +25,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <div className={s.postsBlock}>
                 <h3>My posts</h3>
             </div>
-            <div>
-                <textarea value={props.newPostText} ref={newPostElement} onChange={onPostChange}/>
-            </div>
-            <div>
-                <button onClick={onAddPost}>Add post
-                </button>
-                <button>Remove</button>
-            </div>
+            <PostTextReduxForm onSubmit={addNewPost}/>
             <div className={s.posts}>
                 {postsElements}
             </div>
