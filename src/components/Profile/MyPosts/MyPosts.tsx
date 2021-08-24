@@ -2,10 +2,10 @@ import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
-import {PostTextReduxForm} from "./PostForm/MyPostForm";
+import {PostForm} from "./PostForm/MyPostForm";
 
 type PostFormDataType = {
-    newPostText:string
+    newPostText: string
 }
 
 const MyPosts = (props: MyPostsPropsType) => {
@@ -25,7 +25,7 @@ const MyPosts = (props: MyPostsPropsType) => {
             <div className={s.postsBlock}>
                 <h3>My posts</h3>
             </div>
-            <PostTextReduxForm onSubmit={addNewPost}/>
+            <PostForm onSubmit={addNewPost}/>
             <div className={s.posts}>
                 {postsElements}
             </div>
