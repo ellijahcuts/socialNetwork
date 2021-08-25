@@ -62,7 +62,7 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
 
     switch (action.type) {
         case ADD_POST:
-            let newPost = {id:v1(), message: action.newPostText, likesCount: 0}
+            let newPost = {id: v1(), message: action.newPostText, likesCount: 0}
             return {
                 ...state,
                 posts: [...state.posts, newPost]
@@ -79,7 +79,7 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
 
     }
 }
-export const addPost = (newPostText:string) => {
+export const addPost = (newPostText: string) => {
     return {
         type: ADD_POST,
         newPostText
@@ -105,7 +105,7 @@ export const updateUserStatus = (status: string) => {
 }
 
 
-export const getUserProfile = (userId: string) => {
+export const getUserProfile = (userId: number | null) => {
     return (dispatch: Dispatch) => {
         profileAPI.getProfile(userId)
             .then(data => {
@@ -114,7 +114,7 @@ export const getUserProfile = (userId: string) => {
     }
 }
 
-export const getUserStatus = (userId: string) => {
+export const getUserStatus = (userId: number | null) => {
     return (dispatch: Dispatch) => {
         profileAPI.getStatus(userId)
             .then(data => {

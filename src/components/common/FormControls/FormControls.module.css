@@ -6,3 +6,8 @@
     color: red;
     margin: 5px;
 }
+.formSummaryError{
+    border: red 2px solid;
+    padding: 5px;
+    color: maroon;
+}

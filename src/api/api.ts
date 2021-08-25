@@ -19,13 +19,13 @@ export const usersAPI = {
 }
 
 export const profileAPI = {
-    getProfile(userId: string) {
+    getProfile(userId: number|null) {
         return instance.get(`profile/` + userId)
             .then(response => {
                 return response.data
             })
     },
-    getStatus(userId: string) {
+    getStatus(userId: number|null) {
         return instance.get(`profile/status/` + userId)
             .then(response => {
                 return response.data

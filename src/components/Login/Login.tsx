@@ -1,11 +1,12 @@
 import React from 'react';
-import {InjectedFormProps, Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {FormElementInput} from "../common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {loginTC, logoutTC} from "../../redux/authReducer";
+import {loginTC} from "../../redux/authReducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../redux/redux-store";
+import style from "../common/FormControls/FormControls.module.css"
 
 
 type FormDataType = {
@@ -26,7 +27,7 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
             <div>
                 <Field placeholder={"Password"}
                        name={"password"}
-                       /*type={"password"}*/
+                    /*type={"password"}*/
                        component={FormElementInput}
                        validate={required}
                 />
@@ -38,6 +39,9 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                        validate={required}
                 />
             </div>
+            {props.error && <div className={style.formSummaryError}>
+                {props.error}
+            </div>}
             <div>
                 <button>Login</button>
             </div>
@@ -61,7 +65,7 @@ const LoginPage = (props: LoginPropsType) => {
         props.loginTC(formData.email, formData.password, formData.rememberMe)
     }
 
-    if(props.isAuth){
+    if (props.isAuth) {
         return <Redirect to={"/profile"}/>
     }
 

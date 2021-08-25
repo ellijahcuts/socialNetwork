@@ -1,7 +1,6 @@
-import {Dispatch} from "redux";
 import {authAPI} from "../api/api";
-import {ThunkAction, ThunkDispatch} from "redux-thunk"
-import {AppStateType, BaseThunkType} from "./redux-store";
+import {BaseThunkType} from "./redux-store";
+import {FormAction, stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET-USER-DATA'
 
@@ -42,7 +41,7 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
 }
 
 
-type ThunkType = BaseThunkType<AuthActionTypes>
+type ThunkType = BaseThunkType<AuthActionTypes| FormAction>
 
 export const getAuthUserData = (): ThunkType => dispatch => {
     authAPI.getMe()
@@ -56,10 +55,13 @@ export const getAuthUserData = (): ThunkType => dispatch => {
 export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => dispatch => {
     authAPI.login(email, password, rememberMe)
         .then(data => {
-        if (data.resultCode === 0) {
-            dispatch(getAuthUserData())
-        }
-    })
+            if (data.resultCode === 0) {
+                dispatch(getAuthUserData())
+            } else {
+                let message = data.messages.length > 0 ? data.messages[0] : "Some error"
+                dispatch(stopSubmit('loginForm', {_error: message}))
+            }
+        })
 }
 export const logoutTC = (): ThunkType => dispatch => {
     authAPI.logout()
