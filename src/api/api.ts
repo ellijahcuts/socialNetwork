@@ -4,7 +4,7 @@ import axios from "axios";
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers: {'API-KEY': '4206485e-0290-4078-a67d-87761ec4f1b5'},
+    headers: {'API-KEY': '2b11d5ae-4d13-449a-88ab-c22c798b441d'},
     data: {}
 })
 
@@ -56,6 +56,18 @@ export const followAPI = {
 export const authAPI = {
     getMe() {
         return instance.get(`auth/me`)
+            .then(response => {
+                return response.data
+            })
+    },
+    login(email:string, password:string, rememberMe:boolean=false) {
+        return instance.post(`auth/login`, {email: email, password: password, rememberMe: rememberMe})
+            .then(response => {
+                return response.data
+            })
+    },
+    logout() {
+        return instance.delete(`auth/login`)
             .then(response => {
                 return response.data
             })

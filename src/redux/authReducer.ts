@@ -1,71 +1,71 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/api";
+import {ThunkAction, ThunkDispatch} from "redux-thunk"
+import {AppStateType, BaseThunkType} from "./redux-store";
 
 const SET_USER_DATA = 'SET-USER-DATA'
-const SPINNER_IS_FETCHING = 'SPINNER-IS-FETCHING'
 
-export type AuthType = {
-    id: string
-    name: string
-    photos: {
-        small: string
-        large: string
-    }
-    followed: boolean,
-    status: string
-    location: { city: string, country: string }
-}
 export type AuthPageType = {
     userId: number | null,
     email: string | null,
     login: string | null,
-    isFetching: boolean
     isAuth: boolean
 }
 const initialState: AuthPageType = {
     userId: null,
     email: null,
     login: null,
-    isFetching: true,
     isAuth: false
 }
+
 export type AuthActionTypes =
     | ReturnType<typeof setAuthUserData>
-    | ReturnType<typeof setIsFetching>
-
 
 export const authReducer = (state = initialState, action: AuthActionTypes): AuthPageType => {
 
     switch (action.type) {
         case SET_USER_DATA: {
-            return {...state, ...action.data, isAuth: true}
-        }
-        case SPINNER_IS_FETCHING: {
-            return {...state, isFetching: action.isFetching}
+            return {
+                ...state,
+                ...action.payload
+            }
         }
         default:
             return state
     }
 }
-export const setAuthUserData = (userId: number, email: string, login: string) => {
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
         type: SET_USER_DATA,
-        data: {userId, email, login}
+        payload: {userId, email, login, isAuth}
     } as const
 }
-export const setIsFetching = (isFetching: boolean) => {
-    return {
-        type: SPINNER_IS_FETCHING,
-        isFetching
-    } as const
+
+
+type ThunkType = BaseThunkType<AuthActionTypes>
+
+export const getAuthUserData = (): ThunkType => dispatch => {
+    authAPI.getMe()
+        .then(data => {
+            if (data.resultCode === 0) {
+                let {id, email, login} = data.data
+                dispatch(setAuthUserData(id, email, login, true))
+            }
+        })
 }
-export const getAuthUserData = () => {
-   return (dispatch: Dispatch) => {
-       authAPI.getMe().then(
-           data => {
-           dispatch(setIsFetching(false))
-           let {id, email, login} = data.data
-           dispatch(setAuthUserData(id, email, login))
-       })
-    }
+export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => dispatch => {
+    authAPI.login(email, password, rememberMe)
+        .then(data => {
+        if (data.resultCode === 0) {
+            dispatch(getAuthUserData())
+        }
+    })
+}
+export const logoutTC = (): ThunkType => dispatch => {
+    authAPI.logout()
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(setAuthUserData(null, null, null, false))
+            }
+        })
 }
