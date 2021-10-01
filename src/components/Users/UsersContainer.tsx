@@ -66,7 +66,6 @@ let mapStateToProps = (state: AppStateType): mapStatePropsType => {
 }
 
 export default compose<React.ComponentType>(
-    withAuthRedirect,
     connect(mapStateToProps,
         {
             follow,

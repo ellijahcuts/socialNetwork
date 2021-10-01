@@ -27,7 +27,7 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
             <div>
                 <Field placeholder={"Password"}
                        name={"password"}
-                    /*type={"password"}*/
+                    type={"password"}
                        component={FormElementInput}
                        validate={required}
                 />

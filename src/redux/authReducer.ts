@@ -44,7 +44,7 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
 type ThunkType = BaseThunkType<AuthActionTypes| FormAction>
 
 export const getAuthUserData = (): ThunkType => dispatch => {
-    authAPI.getMe()
+   return authAPI.getMe()
         .then(data => {
             if (data.resultCode === 0) {
                 let {id, email, login} = data.data
