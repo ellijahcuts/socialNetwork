@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {followAPI, usersAPI} from "../api/api";
+import {getCurrentPage} from "./usersSelectors";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -140,10 +141,11 @@ export const setIsFollowingProgress = (isFetching: boolean, userID: string) => {
     } as const
 }
 ///THUNK CREATOR
-export const getUsers = (currentPage: number, pageSize: number) => {
+export const getUsers = (page: number, pageSize: number) => {
     return (dispatch: Dispatch) => {
         dispatch(setIsFetching(true))
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
+        dispatch(setCurrentPage(page))
+        usersAPI.getUsers(page, pageSize).then(data => {
             dispatch(setIsFetching(false))
             dispatch(setUsers(data.items))
             dispatch(setTotalUserCount(data.totalCount))
