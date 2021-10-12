@@ -18,4 +18,3 @@ export const getFollowingInProgress = (state: AppStateType) => {
 export const getTotalUsersCount = (state: AppStateType) => {
     return state.usersPage.totalUsersCount
 }
-
